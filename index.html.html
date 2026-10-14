@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PARADISE CASINO PORTFOLIO | 유지민</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800;900&family=Playfair+Display:ital,wght@1,900&family=Gowun+Batang:wght@700&family=Nanum+Myeongjo:wght@700;800&family=Pretendard:wght@600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-primary: #ffe082;
+      --gold-bright: #fff8e1;
+      --gold-dark: #b8860b;
+      --casino-red: #8b0000;
+      --casino-red-dark: #3b0006;
+      --bg-dark: #05020a;
+      --neon-cyan: #00f3ff;
+      --neon-purple: #7928ca;
+      --neon-pink: #ff007f;
+      --neon-red: #ff1e43;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #roulette-bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    body.siren-mode {
+      animation: sirenFlash 0.3s infinite alternate;
+    }
+
+    @keyframes sirenFlash {
+      0% { background-color: #5a000c; }
+      100% { background-color: #00153d; }
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* HEADER: 접속하자마자 페이스 ID 버튼이 한눈에 보이도록 상단 정렬 최적화 */
+    header {
+      width: 100%;
+      padding: 20px 30px;
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: radial-gradient(circle at 50% 0%, var(--casino-red) 0%, var(--casino-red-dark) 85%);
+      border: 4px solid var(--gold-primary);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.6);
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+    }
+
+    .logo-area h1 {
+      font-family: 'Cinzel', 'Nanum Myeongjo', serif;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, #ffffff 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 224, 130, 0.9);
+    }
+
+    .user-info {
+      font-size: 15px;
+      color: var(--gold-bright);
+      margin-top: 4px;
+      font-weight: bold;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .chip-badge {
+      background: #000;
+      border: 2px solid var(--gold-primary);
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 15px;
+      color: var(--gold-primary);
+      box-shadow: inset 0 0 10px var(--gold-dark), 0 0 15px rgba(212, 175, 55, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn {
+      background: linear-gradient(180deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+      border: 2px solid #fff;
+      color: #1a0003;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 15px rgba(212, 175, 55, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.9);
+    }
+
+    .btn-777 {
+      background: linear-gradient(180deg, #ffe066 0%, #ff9800 100%);
+      color: #000;
+    }
+
+    .btn-charge {
+      background: linear-gradient(135deg, #00f3ff 0%, #7928ca 100%) !important;
+      color: #ffffff !important;
+      border: 2px solid #00f3ff !important;
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.8), 0 0 35px rgba(121, 40, 202, 0.6) !important;
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.9);
+    }
+
+    .btn-avatar {
+      background: linear-gradient(135deg, #ff007f 0%, #e60000 100%) !important;
+      color: #ffffff !important;
+      border: 2px solid #ff007f !important;
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.8) !important;
+    }
+
+    .title-banner {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .title-banner h2 {
+      font-family: 'Gowun Batang', serif;
+      font-size: 32px;
+      color: #fff;
+      text-shadow: 0 0 15px var(--gold-primary), 0 0 30px var(--neon-pink);
+      margin-bottom: 8px;
+    }
+
+    .raid-warning-bar {
+      background: rgba(139, 0, 0, 0.85);
+      border: 2px solid var(--gold-primary);
+      padding: 6px 20px;
+      border-radius: 16px;
+      font-size: 15px;
+      color: var(--gold-bright);
+      margin-top: 6px;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .slot-machine {
+      background: radial-gradient(circle at 50% 30%, #52000a 0%, #1f0003 100%);
+      border: 6px solid var(--gold-primary);
+      border-radius: 36px;
+      padding: 35px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 0 50px rgba(212, 175, 55, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .reels-container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      height: 180px;
+      margin-bottom: 25px;
+    }
+
+    .reel {
+      flex: 1;
+      background: radial-gradient(circle, #200004 0%, #050001 100%);
+      border: 4px solid var(--gold-primary);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 15px 25px rgba(0, 0, 0, 0.95), 0 0 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .reel-content {
+      font-size: 4.8rem;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
+    }
+
+    .btn-spin {
+      font-family: 'Playfair Display', 'Cinzel', serif;
+      font-style: italic;
+      background: linear-gradient(180deg, #ffffff 0%, #ffe066 30%, #f59f00 70%, #b86200 100%);
+      color: #110003;
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      padding: 15px 95px;
+      border-radius: 50px;
+      border: 4px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 45px rgba(255, 215, 0, 0.95);
+      transition: all 0.15s;
+      text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-spin:hover:not(:disabled) {
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 15px 50px rgba(255, 215, 0, 1);
+    }
+
+    .resume-result {
+      margin-top: 30px;
+      width: 100%;
+      background: radial-gradient(circle at 50% 0%, #290207 0%, #0c0103 100%);
+      border: 4px solid var(--gold-primary);
+      border-radius: 28px;
+      padding: 35px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 30px rgba(212, 175, 55, 0.4);
+      display: none;
+      gap: 25px;
+      align-items: flex-start;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .resume-result.active {
+      display: flex;
+    }
+
+    .profile-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+    }
+
+    .pierrot-img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--gold-primary);
+      object-fit: cover;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+      transition: all 0.3s;
+    }
+
+    .profile-name {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 800;
+      color: var(--gold-bright);
+      font-size: 1.4rem;
+    }
+
+    .persona-tag {
+      font-size: 12px;
+      color: var(--neon-cyan);
+      font-weight: bold;
+      border: 1px solid var(--neon-cyan);
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    .persona-dialog-box {
+      background: rgba(0, 243, 255, 0.08);
+      border: 1px dashed var(--neon-cyan);
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #e0f7fa;
+      margin-top: 6px;
+      line-height: 1.6;
+      width: 100%;
+      text-align: center;
+    }
+
+    .text-area {
+      flex: 1;
+    }
+
+    .resume-result h3 {
+      font-family: 'Gowun Batang', serif;
+      color: var(--gold-bright);
+      font-size: 24px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.5);
+      padding-bottom: 10px;
+      text-shadow: 0 0 10px var(--gold-primary);
+    }
+
+    .resume-result p {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #f1f5f9;
+      word-break: keep-all;
+      white-space: pre-line;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: #190206;
+      border: 3px solid var(--gold-primary);
+      border-radius: 28px;
+      padding: 35px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(212, 175, 55, 0.7);
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .avatar-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar-card:hover {
+      background: rgba(255, 224, 130, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px var(--gold-primary);
+    }
+
+    .avatar-card img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+    }
+
+    .webcam-box {
+      width: 100%;
+      height: 220px;
+      background: #000;
+      border-radius: 18px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+      border: 2px dashed var(--neon-cyan);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scan-line {
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      top: 0;
+      animation: scan 2s infinite linear;
+    }
+
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    #police-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 99999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .police-card {
+      background: #1a0208;
+      border: 4px solid var(--neon-red);
+      border-radius: 28px;
+      padding: 40px;
+      max-width: 680px;
+      width: 100%;
+      box-shadow: 0 0 60px rgba(255, 30, 67, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .police-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--neon-red);
+      object-fit: cover;
+      box-shadow: 0 0 25px rgba(255, 30, 67, 0.8);
+      margin-bottom: 15px;
+    }
+
+    .police-name {
+      color: #ff3366;
+      font-weight: 900;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .dialog-bubble {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 24px;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #fff;
+      margin-bottom: 25px;
+      width: 100%;
+      word-break: keep-all;
+    }
+
+    .btn-disguise {
+      background: linear-gradient(180deg, #00e676 0%, #00a040 100%);
+      color: #000;
+      font-weight: 900;
+      padding: 18px 36px;
+      border-radius: 40px;
+      border: 2px solid #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(0, 230, 118, 0.8);
+      transition: all 0.2s;
+    }
+
+    #treasure-box {
+      position: fixed;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 110px;
+      cursor: pointer;
+      z-index: 10000;
+      transition: top 1s ease-out;
+      filter: drop-shadow(0 0 30px var(--gold-primary));
+      display: none;
+    }
+
+    #treasure-box.drop {
+      top: 25%;
+    }
+
+    #btn-stop-gold {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100001;
+      background: #ff0055;
+      color: #fff;
+      border: 2px solid #fff;
+      padding: 14px 35px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(255, 0, 85, 0.9);
+      display: none;
+    }
+
+    canvas#gold-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="roulette-bg-canvas"></canvas>
+  <canvas id="gold-canvas"></canvas>
+  
+  <div id="treasure-box" onclick="openTreasureBox()">🎁</div>
+  <button id="btn-stop-gold" onclick="stopGoldRain()">✨ 골드 비 멈추기</button>
+
+  <div class="app-container">
+    <header>
+      <div class="logo-area">
+        <h1>🎰 PARADISE CASINO</h1>
+        <div class="user-info">유지민 (Full-Stack Architect) 기술 포트폴리오</div>
+      </div>
+      <div class="header-controls">
+        <div class="chip-badge">🪙 CHIPS: <span id="chip-count">800</span></div>
+        <button class="btn btn-avatar" onclick="openAvatarModal()">🎭 테마 선택</button>
+        <button class="btn btn-777" onclick="force777()">🎰 강제 777</button>
+        <button class="btn btn-charge" id="charge-btn" onclick="openCharger()">⚡ 페이스 ID 충전소</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="title-banner">
+        <h2>슬롯을 돌려 유지민 님의 핵심 역량을 추출하세요!</h2>
+        <p style="color: #aaa; font-size: 15px;">1회 회전당 500 CHIPS가 소모됩니다.</p>
+        <div class="raid-warning-bar">🚨 단속 수사 지수: <span id="danger-level">① 경미한 관심</span></div>
+      </div>
+
+      <div class="slot-machine">
+        <div class="reels-container">
+          <div class="reel"><div class="reel-content" id="reel1">💻</div></div>
+          <div class="reel"><div class="reel-content" id="reel2">💻</div></div>
+          <div class="reel"><div class="reel-content" id="reel3">💻</div></div>
+        </div>
+
+        <button class="btn-spin" id="spin-btn" onclick="spinSlot()">SPIN! 🎰</button>
+
+        <div class="resume-result" id="resume-card">
+          <div class="profile-area">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PierrotCasino" alt="카지노 피에로" class="pierrot-img" id="display-avatar">
+            <span class="profile-name">유지민</span>
+            <span class="persona-tag" id="display-persona">카지노 피에로</span>
+            <div class="persona-dialog-box" id="persona-dialog-text">"신사 숙녀 여러분! 슬롯에 당첨된 역량을 한눈에 감상해 보시죠!"</div>
+          </div>
+          <div class="text-area">
+            <h3 id="result-title">🎯 역량 키워드</h3>
+            <p id="result-text">슬롯을 돌리면 3개 릴이 완전히 일치하면서 상세 기술 스토리가 출력됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="avatar-modal">
+    <div class="modal">
+      <h3 style="color: var(--gold-bright); font-size: 24px;">🎭 페르소나 아바타 테마 선택</h3>
+      <p style="color: #bbb; font-size: 15px; margin-top: 6px;">포트폴리오 해설 캐릭터를 직접 변경해 보세요.</p>
+
+      <div class="avatar-grid">
+        <div class="avatar-card" onclick="selectAvatar('PierrotCasino', '카지노 피에로')">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PierrotCasino" alt="피에로">
+          <span style="font-weight: bold; font-size: 15px;">🤡 카지노 피에로</span>
+        </div>
+        <div class="avatar-card" onclick="selectAvatar('VipHost', 'VIP 호스트')">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=VipHost" alt="VIP 호스트">
+          <span style="font-weight: bold; font-size: 15px;">👔 VIP 호스트</span>
+        </div>
+        <div class="avatar-card" onclick="selectAvatar('CyberDealer', '사이버 딜러')">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberDealer" alt="사이버 딜러">
+          <span style="font-weight: bold; font-size: 15px;">🤖 사이버 딜러</span>
+        </div>
+        <div class="avatar-card" onclick="selectAvatar('FullStackMaster', '마스터 아키텍트')">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=FullStackMaster" alt="마스터 아키텍트">
+          <span style="font-weight: bold; font-size: 15px;">💻 마스터 아키텍트</span>
+        </div>
+      </div>
+
+      <button class="btn" style="width: 100%; justify-content: center; padding: 14px;" onclick="closeAvatarModal()">닫기</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="charge-modal">
+    <div class="modal">
+      <h3 style="color: var(--gold-bright); font-size: 24px;">⚡ 페이스 ID 보안 충전소</h3>
+      <p style="color: #bbb; font-size: 15px; margin-top: 6px;">카메라 정면을 바라보며 안면 스캔을 진행해 주세요.</p>
+      
+      <div class="webcam-box">
+        <div class="scan-line"></div>
+        <span id="scan-status" style="color: var(--neon-cyan); font-weight: bold; font-size: 16px;">[ 안면 윤곽 인식 및 보안 인증 중... ]</span>
+      </div>
+
+      <button class="btn" style="width: 100%; justify-content: center; padding: 16px; font-size: 18px;" onclick="completeCharge()">페이스 ID 인증 완료 및 5,000 CHIPS 충전</button>
+    </div>
+  </div>
+
+  <div id="police-modal">
+    <div class="police-card">
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=PoliceOfficer" alt="단속 경관" class="police-avatar">
+      <div class="police-name" id="police-stage-title">🚨 사이버범죄수사대 수사관</div>
+      
+      <div class="dialog-bubble" id="police-dialog">
+        "💥 쿵쿵! 지나가다 수상한 네온 불빛이 흘러나와 둘러보러 왔다! 설마 여기서 불법 오락기를 가동하는 건 아니겠지?!"
+      </div>
+
+      <div class="police-actions">
+        <button class="btn-disguise" id="btn-disguise-text" onclick="switchDisguise()">🕹 [위장 레버 작동] "조명을 가구 전시장으로 전환합니다"</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const bgCanvas = document.getElementById('roulette-bg-canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let angle = 0;
+
+    function resizeBg() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
+
+    function drawRouletteBg() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      const cx = bgCanvas.width / 2;
+      const cy = bgCanvas.height / 2;
+      const radius = Math.min(cx, cy) * 0.8;
+
+      bgCtx.save();
+      bgCtx.translate(cx, cy);
+      bgCtx.rotate(angle);
+
+      const slots = 37;
+      const arc = (Math.PI * 2) / slots;
+
+      for (let i = 0; i < slots; i++) {
+        bgCtx.beginPath();
+        bgCtx.arc(0, 0, radius, i * arc, (i + 1) * arc);
+        bgCtx.lineTo(0, 0);
+        bgCtx.fillStyle = i === 0 ? '#00e676' : (i % 2 === 0 ? '#d50000' : '#111111');
+        bgCtx.fill();
+        bgCtx.strokeStyle = '#ffe082';
+        bgCtx.lineWidth = 1;
+        bgCtx.stroke();
+      }
+
+      bgCtx.beginPath();
+      bgCtx.arc(0, 0, radius * 0.65, 0, Math.PI * 2);
+      bgCtx.fillStyle = '#0a0205';
+      bgCtx.fill();
+      bgCtx.strokeStyle = '#ffe082';
+      bgCtx.lineWidth = 4;
+      bgCtx.stroke();
+
+      bgCtx.restore();
+      angle += 0.003;
+      requestAnimationFrame(drawRouletteBg);
+    }
+    drawRouletteBg();
+
+    const personaDialogues = {
+      '카지노 피에로': {
+        '💻': '"짜잔! 동시 접속자가 10배로 몰려와도 눈 깜짝 안 하고 155ms 만에 대답하는 마술이랍니다!"',
+        '🗄️': '"1억 개의 카드 중에서 원하는 카드를 0.4초 만에 쏙 뽑아내는 데이터의 마술사죠!"',
+        '🛠️': '"버튼 하나만 누르면 무대 조명이 단 1초의 끊김도 없이 사르르 바뀐답니다!"',
+        '🔒': '"얼굴을 가려도 다 알아맞히는 차세대 보안 돋보기라구요!"',
+        '🌐': '"지구 반대편에 계셔도 속도는 빛의 속도로 착착 동기화됩니다!"',
+        '🎰': '"신사 숙녀 여러분! 유지민 아키텍트의 전설적인 777 대박 역량이 완전히 해금되었습니다!"'
+      },
+      'VIP 호스트': {
+        '💻': '"품격 있는 VIP 고객님의 대기 시간을 65% 이상 단축한 최고급 라우팅 경험을 선사합니다."',
+        '🗄️': '"1억 건 이상의 트랜잭션도 안정적으로 자산을 관리하듯 92% 캐시 적중률로 지켜냅니다."',
+        '🛠️': '"결함 없는 완벽함, 배포 실패율 0.1% 미만의 검증된 인프라만을 서비스합니다."',
+        '🔒': '"철통같은 보안 프라이버시, 초고속 생체 인증으로 최고의 안전을 보장합니다."',
+        '🌐': '"글로벌 에지 네트워크를 통해 전 세계 어디서나 최상의 커넥션을 유지합니다."',
+        '🎰': '"VIP 고객님을 위해 준비된 최고 등급의 유지민 아키텍트 종합 리포트입니다."'
+      },
+      '사이버 딜러': {
+        '💻': '"[데이터 로그] 비동기 큐 파이프라인 가동 완료. API 지연율 450ms -> 155ms 수치 기록."',
+        '🗄️': '"[쿼리 분석] Full Table Scan 차단 성공. Composite Index 파티셔닝 가동 중."',
+        '🛠️': '"[파이프라인] Blue-Green K8s 가동. 신규 코드 품질 지수 SonarQube AAA 달성."',
+        '🔒': '"[보안 스캔] JWT Auth 및 Face-ID 바이오메트릭 토큰 정상 승인."',
+        '🌐': '"[네트워크] CDN 정적 리소스 로딩 지연 60% 감소. 실시간 Socket 동기화 성공."',
+        '🎰': '"[ALL MATCH] 릴 3개 일치. 유지민 아키텍트의 모든 시스템 모듈 데이터 로드 중."'
+      },
+      '마스터 아키텍트': {
+        '💻': '"엔지니어링의 본질은 확장성입니다. 무상태 설계로 고가용성 99.9%를 수호합니다."',
+        '🗄️': '"병목은 데이터에서 시작됩니다. 효율적인 파티셔닝만이 지속 가능한 구조를 만듭니다."',
+        '🛠️': '"자동화되지 않은 시스템은 위험합니다. 표준화된 CI/CD로 온보딩 속도를 50% 줄였습니다."',
+        '🔒': '"보안은 타협의 대상이 아닙니다. Zero-Trust 아키텍처로 신뢰성을 확보합니다."',
+        '🌐': '"사용자와의 거리를 좁히는 에지 라우팅이야말로 차세대 웹의 핵심입니다."',
+        '🎰': '"설계부터 구현, 테스트 및 인프라까지 완벽하게 준비된 기술 스택 모음입니다."'
+      }
+    };
+
+    const resumeData = [
+      {
+        icon: "💻",
+        title: "실시간 대규모 트래픽 처리 및 웹 시스템 아키텍처 설계",
+        desc: "• 대용량 트래픽 병목 현상 타개 및 아키텍처 재설계\n프로모션 이벤트 및 피크 타임에 초당 동시 요청 수가 평시 대비 10배 이상 급증하는 환경에서 발생하던 서비스 지연 문제를 근본적으로 해결했습니다. 서비스 간 강한 결합도를 완화하기 위해 메시지 파이프라인을 구축하여 처리 과정을 분리했습니다. 그 결과 핵심 결제 및 예약 로직의 평균 응답 시간을 기존 450밀리초에서 155밀리초로 65% 이상 대폭 단축시켰습니다.\n\n• 분산 시스템 전환 및 무중단 수평 확장성 확보\n기존 단일 구조의 백엔드 서비스를 영역별 독립적인 서비스로 분리 재설계했습니다. 서버 세션을 제거하고 무상태 시스템을 완벽히 구축함으로써, 트래픽 유입에 따른 서버 수평 확장을 원활하게 수행할 수 있도록 유연성을 증대시켰습니다. 이를 통해 연중 서비스 가동률 99.9% 이상의 높은 안정성을 성공적으로 유지해냈습니다."
+      },
+      {
+        icon: "🗄️",
+        title: "대용량 데이터베이스 설계, 쿼리 실행 계획 튜닝 및 캐싱 전략",
+        desc: "• 대용량 테이블 파티셔닝 및 인덱스 구조 최적화\n누적 데이터가 1억 건을 초과하면서 전체 테이블 탐색으로 인해 데이터 집계 처리 속도가 느려지던 병목을 직접 정밀 분석했습니다. 쿼리 실행 계획을 분석하여 불필요한 연산을 제거하고 복합 인덱스를 재설계했으며, 날짜 기준의 데이터베이스 파티셔닝 전략을 도입했습니다. 그 결과 평균 쿼리 실행 시간을 3.2초에서 0.4초로 85% 이상 개선했습니다.\n\n• 분산 캐시 레이어 도입 및 읽기 부하 경감\n자주 조회되는 마스터 데이터 및 실시간 세션 정보에 대한 부하를 경감하기 위해 분산 캐싱 아키텍처를 구현했습니다. 데이터 일관성을 보장하는 패턴을 유연하게 적용하여 캐시 적중률 92% 이상을 달성함으로써 병목 현상을 완벽히 해결했습니다."
+      },
+      {
+        icon: "🛠️",
+        title: "클라우드 인프라 자동화, 배포 파이프라인 및 개발 문화 혁신",
+        desc: "• 컨테이너 기반 무중단 배포 체계 완성\n클라우드 네이티브 개발 환경을 구축하여 서비스 중단 없는 배포 파이프라인을 완비했습니다. 이전에는 배포 시 발생하던 점검 시간을 완전히 제거하였으며, 새로운 기능의 배포 실패율을 0.1% 미만으로 신뢰성 있게 관리할 수 있게 되었습니다.\n\n• 정적 코드 분석 및 개발 프로세스 표준화\n팀 내 개발 생산성 향상을 위해 인터페이스 명세서 자동화 환경을 구축했습니다. 또한 정적 코드 분석 도구를 배포 파이프라인에 통합하여 코드 품질 표준화를 이끌어냈습니다. 새로운 동료가 합류하더라도 개발 환경 구축 및 도메인 파악에 소요되는 시간을 기존 5일에서 1.5일로 단축시켰습니다."
+      },
+      {
+        icon: "🔒",
+        title: "보안 인증 아키텍처 및 안면 생체 인증 시스템 구축",
+        desc: "• 고성능 보안 인증 체계 및 분산 권한 검증 구현\n사용자 자격 증명 및 토큰 기반 인증 아키텍처를 구현하여 서비스 간 보안 연동을 강화했습니다. 암호화 알고리즘을 적용하여 보안성을 높이고, 분산 환경에서도 밀리초 단위의 빠른 권한 검증을 처리할 수 있는 구조를 정립했습니다.\n\n• 생체 안면 인식 기반 고속 보안 통로 연동\n실시간 안면 스캔 데이터를 표준 인터페이스 규격으로 처리하는 보안 모듈을 연동하여 일일 수만 건의 높은 정확도를 보장하는 고속 인증 절차를 성공적으로 완성했습니다."
+      },
+      {
+        icon: "🌐",
+        title: "분산 네트워크 라우팅 및 에지 컴퓨팅 성능 최적화",
+        desc: "• 글로벌 콘텐츠 전송 네트워크 기반 정적 자원 최적화\n웹 페이지 초기 로딩 속도와 렌더링 성능을 극대화하기 위해 정적 자원 압축 및 지연 로딩 전략을 적용했습니다. 네트워크 구간 지연을 최소화하여 사용자의 초기 자원 수신 시간을 60% 이상 단축했습니다.\n\n• 클라이언트-서버 간 실시간 데이터 동기화 최적화\n양방향 통신 채널을 구축하여 서버 상태 변경 사항을 실시간으로 화면에 동기화시켰으며, 데이터 유실 없는 안정적인 상태 관리를 구현했습니다."
+      },
+      {
+        icon: "🎰",
+        title: "GRAND JACKPOT: 유지민 풀스택 아키텍트 종합 역량 리포트",
+        desc: "📌 [1. 대규모 실시간 트래픽 처리 및 웹 시스템 아키텍처 설계]\n• 대용량 트래픽 병목 해결: 초당 요청 수가 급증하는 환경에서 서비스 장애를 방지하기 위해 비동기 이벤트 메시지 파이프라인을 도입했습니다. 핵심 비즈니스 로직의 API 응답 지연 시간을 기존 대비 65% 이상 크게 단축(450ms → 155ms)시켰습니다.\n• 분산 아키텍처 구현: 서비스 간 강한 결합도를 낮추기 위해 마이크로서비스 구조로 전환을 이끌었으며, 무중단 수평 확장성을 확보하고 99.9% 이상의 고가용성을 유지했습니다.\n\n📌 [2. 대용량 데이터베이스 설계, 쿼리 실행 계획 튜닝 및 캐싱 전략]\n• 데이터베이스 파티셔닝 & 인덱싱: 1억 건이 넘는 데이터베이스의 인덱스 구조를 개선하고 파티셔닝 전략을 적용하여, 집계 쿼리 실행 시간을 85% 이상 대폭 개선했습니다.\n• 메모리 캐싱 전략 도입: 분산 캐시 레이어를 구조화하여 읽기 부하를 대폭 줄이고 92%의 높은 캐시 적중률을 달성했습니다.\n\n📌 [3. 클라우드 인프라 자동화, 배포 파이프라인 및 개발 문화 혁신]\n• 무중단 배포 체계 수립: 컨테이너 조율 환경을 도입하여 서비스 중단 없는 무중단 배포 파이프라인을 구축했습니다.\n• 개발 환경 표준화: API 명세서 자동화 및 정적 코드 분석 도구를 정착시켜, 팀원들의 적응 시간을 50% 줄이고 높은 코드 품질을 유지했습니다.\n\n📌 [4. 보안 인증 아키텍처 및 안면 생체 인증 시스템 구축]\n• 고성능 보안 인증 체계: 토큰 기반 분산 자격 검증 아키텍처를 정립하여 서비스 간 동시 인증 속도를 대폭 높이고 일일 수만 건의 안면 인식 스캔 데이터를 안정적으로 처리했습니다.\n\n📌 [5. 분산 네트워크 라우팅 및 에지 컴퓨팅 성능 최적화]\n• 네트워크 지연 최소화: 정적 자원 압축 및 지연 로딩 전략을 도입하여 사용자 초기 로딩 시간을 60% 단축하고 양방향 실시간 동기화 채널을 구축했습니다.\n\n📌 [6. 보유 직무 기술 스택 요약]\n- 프론트엔드: 자바스크립트, 타입스크립트, 리액트, 넥스트JS, 웹 성능 최적화\n- 백엔드: 노드JS, 스프링 부트, RESTful API, 마이크로서비스 아키텍처\n- 데이터베이스: 포스트그레스큐엘, 마이에스큐엘, 레디스, 몽고디비\n- 인프라 및 도구: 도커, 쿠버네티스, AWS 클라우드, 자동화 배포 파이프라인"
+      }
+    ];
+
+    let chips = 800;
+    let spinCounter = 0;
+    let lastRaidSpin = -99;
+    let raidStage = 0;
+    let isSpinning = false;
+    let currentPersona = '카지노 피에로';
+    let currentResultIcon = '🎰';
+
+    const reelElements = [
+      document.getElementById('reel1'),
+      document.getElementById('reel2'),
+      document.getElementById('reel3')
+    ];
+
+    const policeStages = [
+      {
+        title: "🚨 단속 1단계 (경미한 관심)",
+        dialog: "💥 쿵쿵! 지나가다 수상한 네온 불빛이 흘러나와 둘러보러 왔다! 설마 여기서 불법 오락기를 가동하는 건 아니겠지?!",
+        btnText: "🕹 [위장 레버 작동] \"여긴 다도 공방 겸 가구점인데요?\"",
+        response: "🍵 <b>(위장 레버가 당겨지자 앤틱 가구 조명으로 바뀝니다)</b><br><br>'어라...? 오락기가 아니라 고풍스러운 원목 가구 전시장이었군요. 잘못 봤습니다!'"
+      },
+      {
+        title: "🚨 단속 2단계 (주의 관찰)",
+        dialog: "💥 쿵쿵쿵! 또 소리가 밖으로 새어 나오고 있잖아! 칩 거래 소리와 슬롯 회전음이 자꾸 들리는데... 내 기분 탓인가?!",
+        btnText: "🕹 [위장 레버 작동] \"차를 우려내고 찻잔을 다듬는 소리입니다\"",
+        response: "🍵 <b>(차 향기가 퍼지며 다도 도구가 드러납니다)</b><br><br>'어라...? 차를 우려내고 찻잔 부딪히는 소리였군요. 오해해서 미안합니다!'"
+      },
+      {
+        title: "🚨 단속 3단계 (심층 수사)",
+        dialog: "💥 쿵!! 페이스 ID 안면 인식에 불법 칩 충전 현황까지 포착되었다! 더 이상 거짓말할 수 없을 텐데! 당장 조사를 진행하겠다!",
+        btnText: "🕹 [위장 레버 작동] \"공방 회원 출입용 안면 키오스크입니다\"",
+        response: "🍵 <b>(보안 시스템 안내판으로 UI가 전환됩니다)</b><br><br>'어라...? 공방 회원 전용 보안 출입 시스템이었군요. 수사를 거두겠습니다.'"
+      },
+      {
+        title: "🚨 단속 4단계 (현장 급습)",
+        dialog: "💥 쿵쿵쿵!! 사이버범죄수사대 현장 적발이다! 손머리 위로 올... 어라?? 찰나에 불빛이 꺼지며 은은한 차 향기가?!",
+        btnText: "🕹 [위장 레버 작동] \"공방 영업시간이 종료되어 조명을 낮췄습니다\"",
+        response: "🍵 <b>(완벽한 전통 가구 공방으로 시치미를 뗗니다)</b><br><br>'완벽한 다도 공방 겸 가구점이군요... 철저한 제보 오류였습니다. 수사를 종료합니다!'"
+      }
+    ];
+
+    function updatePersonaDialogue() {
+      const dialogueMap = personaDialogues[currentPersona];
+      if (dialogueMap && dialogueMap[currentResultIcon]) {
+        document.getElementById('persona-dialog-text').innerHTML = dialogueMap[currentResultIcon];
+      }
+    }
+
+    function spinSlot(forcedData = null) {
+      if (isSpinning) return;
+
+      if (!forcedData && chips < 500) {
+        alert("칩이 부족합니다! [⚡ 페이스 ID 충전소]에서 안면 인증 후 칩을 충전해 주세요.");
+        document.getElementById('charge-btn').classList.add('highlight');
+        return;
+      }
+
+      if (!forcedData) {
+        chips -= 500;
+        document.getElementById('chip-count').innerText = chips.toLocaleString();
+        spinCounter++;
+      }
+
+      let shouldRaid = false;
+      if (!forcedData) {
+        if (spinCounter === 5) {
+          shouldRaid = true;
+        } else if (spinCounter - lastRaidSpin >= 12) {
+          shouldRaid = true;
+        }
+      }
+
+      if (shouldRaid) {
+        lastRaidSpin = spinCounter;
+        triggerPoliceRaid();
+        return;
+      }
+
+      isSpinning = true;
+      document.getElementById('spin-btn').disabled = true;
+      document.getElementById('resume-card').classList.remove('active');
+
+      const targetData = forcedData || resumeData[Math.floor(Math.random() * resumeData.length)];
+      currentResultIcon = targetData.icon;
+
+      let spinCount = 0;
+      const maxSpins = 20;
+
+      const interval = setInterval(() => {
+        reelElements.forEach(reel => {
+          const rand = resumeData[Math.floor(Math.random() * resumeData.length)];
+          reel.innerText = rand.icon;
+        });
+        spinCount++;
+
+        if (spinCount >= maxSpins) {
+          clearInterval(interval);
+
+          reelElements[0].innerText = targetData.icon;
+          reelElements[1].innerText = targetData.icon;
+          reelElements[2].innerText = targetData.icon;
+
+          document.getElementById('result-title').innerText = `${targetData.icon} ${targetData.title}`;
+          document.getElementById('result-text').innerText = targetData.desc;
+          updatePersonaDialogue();
+          document.getElementById('resume-card').classList.add('active');
+
+          isSpinning = false;
+          document.getElementById('spin-btn').disabled = false;
+
+          if (targetData.icon === "🎰") {
+            const box = document.getElementById('treasure-box');
+            box.style.display = 'block';
+            setTimeout(() => box.classList.add('drop'), 100);
+          }
+        }
+      }, 80);
+    }
+
+    function force777() {
+      const jackPotData = resumeData.find(item => item.icon === "🎰");
+      spinSlot(jackPotData);
+    }
+
+    function openAvatarModal() {
+      document.getElementById('avatar-modal').classList.add('active');
+    }
+
+    function closeAvatarModal() {
+      document.getElementById('avatar-modal').classList.remove('active');
+    }
+
+    function selectAvatar(seed, personaName) {
+      currentPersona = personaName;
+      document.getElementById('display-avatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
+      document.getElementById('display-persona').innerText = personaName;
+      updatePersonaDialogue();
+      closeAvatarModal();
+    }
+
+    function openCharger() {
+      document.getElementById('charge-modal').classList.add('active');
+    }
+
+    function completeCharge() {
+      chips += 5000;
+      document.getElementById('chip-count').innerText = chips.toLocaleString();
+      document.getElementById('charge-modal').classList.remove('active');
+      document.getElementById('charge-btn').classList.remove('highlight');
+      alert("페이스 ID 안면 생체 인증이 완료되어 5,000 CHIPS가 추가 충전되었습니다!");
+    }
+
+    function openTreasureBox() {
+      const box = document.getElementById('treasure-box');
+      box.classList.remove('drop');
+      setTimeout(() => box.style.display = 'none', 500);
+
+      startGoldRain();
+    }
+
+    const goldCanvas = document.getElementById('gold-canvas');
+    const goldCtx = goldCanvas.getContext('2d');
+
+    function resizeGoldCanvas() {
+      goldCanvas.width = window.innerWidth;
+      goldCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeGoldCanvas);
+    resizeGoldCanvas();
+
+    function startGoldRain() {
+      document.getElementById('btn-stop-gold').style.display = 'block';
+      coins = [];
+      for (let i = 0; i < 150; i++) {
+        coins.push({
+          x: Math.random() * goldCanvas.width,
+          y: Math.random() * -goldCanvas.height,
+          radius: Math.random() * 8 + 6,
+          speed: Math.random() * 5 + 3,
+          color: '#ffd700'
+        });
+      }
+      animateGold();
+    }
+
+    function animateGold() {
+      goldCtx.clearRect(0, 0, goldCanvas.width, goldCanvas.height);
+      coins.forEach(c => {
+        goldCtx.beginPath();
+        goldCtx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+        goldCtx.fillStyle = c.color;
+        goldCtx.shadowBlur = 12;
+        goldCtx.shadowColor = "#ffd700";
+        goldCtx.fill();
+        c.y += c.speed;
+
+        if (c.y > goldCanvas.height) {
+          c.y = -10;
+          c.x = Math.random() * goldCanvas.width;
+        }
+      });
+      goldRainAnimation = requestAnimationFrame(animateGold);
+    }
+
+    function stopGoldRain() {
+      cancelAnimationFrame(goldRainAnimation);
+      goldCtx.clearRect(0, 0, goldCanvas.width, goldCanvas.height);
+      document.getElementById('btn-stop-gold').style.display = 'none';
+    }
+
+    function triggerPoliceRaid() {
+      document.body.classList.add('siren-mode');
+      const modal = document.getElementById('police-modal');
+      
+      const currentStage = policeStages[raidStage];
+      document.getElementById('police-stage-title').innerText = currentStage.title;
+      document.getElementById('police-dialog').innerHTML = currentStage.dialog;
+      document.getElementById('btn-disguise-text').innerText = currentStage.btnText;
+
+      modal.style.display = 'flex';
+    }
+
+    function switchDisguise() {
+      const dialog = document.getElementById('police-dialog');
+      const currentStage = policeStages[raidStage];
+      dialog.innerHTML = currentStage.response;
+      
+      setTimeout(() => {
+        document.getElementById('police-modal').style.display = 'none';
+        document.body.classList.remove('siren-mode');
+        
+        if (raidStage < policeStages.length - 1) {
+          raidStage++;
+        } else {
+          raidStage = 0;
+        }
+        
+        const dangerTexts = ["① 경미한 관심", "② 주의 관찰 ⚠️️", "③ 심층 수사 🚨", "④ 현장 급습 💥"];
+        document.getElementById('danger-level').innerText = dangerTexts[raidStage];
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
